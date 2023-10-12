@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingfeng.module.base.mapper.AuthenMapper">
+
+    <!--查询数据分页列表-->
+    <select id="findListPage" parameterType="Authen" resultType="Authen">
+        select
+            a.id as "id",
+            a.type as "type",
+            a.title as "title",
+            a.appId as "appId",
+            a.appSecret as "appSecret",
+            a.status as "status",
+            a.order_by as "order_by",
+            a.remark as "remark",
+            a.create_time as "create_time",
+            a.create_user as "create_user",
+            a.update_user as "update_user",
+            a.update_time as "update_time"
+            from common_authen a
+            where 1=1
+            <if test="obj.status != null and obj.status != ''">
+                and a.status = #{obj.status}
+            </if>
+            <if test="obj.type != null and obj.type != ''">
+                and a.type = #{obj.type}
+            </if>
+            <if test="obj.title != null and obj.title != ''">
+                and a.title like concat('%',concat(#{obj.title},'%'))
+            </if>
+            order by  a.status+0 asc, a.create_time desc
+    </select>
+
+    <!--查询数据列表-->
+    <select id="findList" parameterType="Authen" resultType="Authen">
+        select
+            a.id as "id",
+            a.type as "type",
+            a.title as "title",
+            a.appId as "appId",
+            a.appSecret as "appSecret",
+            a.status as "status",
+            a.order_by as "order_by",
+            a.remark as "remark",
+            a.create_time as "create_time",
+            a.create_user as "create_user",
+            a.update_user as "update_user",
+            a.update_time as "update_time"
+            from common_authen a
+            where 1=1
+            <if test="status != null and status != ''">
+                and a.status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                and a.type = #{type}
+            </if>
+            <if test="title != null and title != ''">
+                and a.title like concat('%',concat(#{title},'%'))
+            </if>
+            order by  a.status+0 asc, a.create_time desc
+    </select>
+
+
+</mapper>

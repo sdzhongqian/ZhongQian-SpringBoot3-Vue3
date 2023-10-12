@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.qingfeng</groupId>
+        <artifactId>qingfeng</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.qingfeng.server</groupId>
+    <artifactId>qingfeng-server</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.qingfeng.module.monitor</groupId>
+            <artifactId>qingfeng-module-monitor</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qingfeng.module.quartz</groupId>
+            <artifactId>qingfeng-module-quartz</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qingfeng.system</groupId>
+            <artifactId>qingfeng-system</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

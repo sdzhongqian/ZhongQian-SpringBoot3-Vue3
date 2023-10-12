@@ -1,0 +1,74 @@
+server:
+  port: 9100
+
+spring:
+  application:
+    name: qingfeng
+
+  datasource:
+    dynamic:
+      p6spy: true
+      hikari:
+        connection-timeout: 30000
+        max-lifetime: 1800000
+        max-pool-size: 15
+        min-idle: 5
+        connection-test-query: select 1
+        pool-name: QingfengHikariCP
+      primary: base
+      datasource:
+        base:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://qingfeng.pub:3306/qingfeng_server?useUnicode=true&characterEncoding=UTF-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+          username: root
+          password: Root@123654
+  #        slave:
+  #          username: root
+  #          password: Root@123
+  #          driver-class-name: com.mysql.cj.jdbc.Driver
+  #          url: jdbc:mysql://localhost:3306/qingfeng_slave?useUnicode=true&characterEncoding=UTF-8&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+
+  data:
+#    mongodb:
+#      uri: mongodb://root:123456@121.5.104.63:27017/qingfeng
+    redis:
+      host: localhost
+      port: 6379
+  mail:
+    # 163邮箱的地址为smtp.163.com
+    host: smtp.163.com
+    # 我的163邮箱账号
+    username: axtaxt@163.com
+    # 注意密钥是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
+    password: SURPXSROYNQHOYZH
+    port: 465
+    properties:
+      from: axtaxt@163.com
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+  servlet:
+    multipart:
+      max-file-size : 100MB
+      max-request-size : 100MB
+
+mybatis-plus:
+  type-aliases-package: com.qingfeng.**.entity,;com.qingfeng.**.entity.*
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: false # 数据库下划线自动转驼峰标示关闭
+    cache-enabled: false
+    call-setters-on-nulls: true
+  global-config:
+    banner: false
+
+
+license:
+  licensePath: E:/home/
+
+qingfeng:
+  imitpwd: 123456
+  gencode:
+    table_schema: qx_server

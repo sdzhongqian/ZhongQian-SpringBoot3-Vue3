@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingfeng.framework.security.mapper.UserDetailMapper">
+
+    <!--查询详情-->
+    <select id="findUserInfo" parameterType="com.qingfeng.module.common.utils.PageData" resultType="com.qingfeng.module.common.utils.PageData">
+        select
+            a.id as "id",
+            a.type as "type",
+            a.login_name as "login_name",
+            a.login_password as "login_password",
+            a.name as "name",
+            a.sex as "sex",
+            a.phone as "phone",
+            a.email as "email",
+            a.birth_date as "birth_date",
+            a.live_address as "live_address",
+            a.birth_address as "birth_address",
+            a.head_address as "head_address",
+            a.motto as "motto",
+            a.status as "status",
+            a.order_by as "order_by",
+            a.init_password as "init_password",
+            a.pwd_error_num as "pwd_error_num",
+            a.pwd_error_time as "pwd_error_time",
+            ifnull(a.depart_leader,'') as "depart_leader",
+            ifnull(a.direct_leader,'') as "direct_leader",
+            ifnull(a.branch_leader,'') as "branch_leader",
+            ifnull(c.name,'') as "depart_leader_name",
+            ifnull(d.name,'') as "direct_leader_name",
+            ifnull(e.name,'') as "branch_leader_name",
+            a.token as "token",
+            a.token_refresh_time as "token_refresh_time",
+            a.remark as "remark",
+            a.create_time as "create_time"
+            from system_user a
+            left join system_user c on a.depart_leader=c.id
+            left join system_user d on a.direct_leader=d.id
+            left join system_user e on a.branch_leader=e.id
+            where 1=1
+            <if test="login_name != null and login_name != ''">
+                and  (a.login_name = #{login_name} or a.id = #{login_name})
+            </if>
+            <if test="user_id != null and user_id != ''">
+                and  a.id = #{user_id}
+            </if>
+            <if test="token != null and token != ''">
+                and  a.token = #{token}
+            </if>
+            group by a.id
+    </select>
+
+
+    <select id="findUserOrganizeInfo" parameterType="com.qingfeng.module.common.utils.PageData" resultType="com.qingfeng.module.common.utils.PageData">
+        select
+            a.id as "id",
+            a.user_id as "user_id",
+            a.organize_id as "organize_id",
+            a.type as "type",
+            a.position as "position",
+            a.authOrgIds as "authOrgIds",
+            a.authParams as "authParams",
+            a.use_status as "use_status",
+            a.order_by as "order_by",
+            a.create_user as "create_user",
+            a.create_time as "create_time",
+            a.update_time as "update_time",
+            b.name as "organize_name",
+            b.org_cascade as "org_cascade"
+            from system_user_organize a
+            left join system_organize b on a.organize_id = b.id
+            where 1=1
+            <if test="user_id != null and user_id != ''">
+                and a.user_id = #{user_id}
+            </if>
+            <if test="organize_id != null and organize_id != ''">
+                and a.organize_id = #{organize_id}
+            </if>
+            order by a.use_status+0 asc,a.order_by+0 asc,a.type+0 asc
+            limit 1
+    </select>
+
+
+    <select id="findUserPermissions" parameterType="com.qingfeng.module.common.utils.PageData" resultType="com.qingfeng.module.common.utils.PageData">
+        select
+            a.id as "id",
+            a.type as "type",
+            a.name as "name",
+            a.permission as "permission",
+            b.name as "parent_name",
+            b.permission as "parent_permission",
+            CONCAT(b.permission,":",a.permission) as "perms"
+            from system_menu a
+            left join system_menu b on a.parent_id=b.id
+            where a.type='2' and b.permission is not null
+            <if test="user_id != null and user_id != ''">
+                and (
+                a.id in (
+                select menu_id from system_role_menu where role_id in (
+                select role_id from system_user_role where user_id = #{user_id,jdbcType=VARCHAR}
+                ) or role_id in (
+                select role_id from system_organize_role where organize_id in (select organize_id from system_user_organize
+                where user_id = #{user_id,jdbcType=VARCHAR})
+                )
+                )
+                )
+            </if>
+            order by a.order_by+0 asc, a.create_time desc
+    </select>
+
+</mapper>
