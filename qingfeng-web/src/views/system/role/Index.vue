@@ -103,12 +103,11 @@
       },
     });
 
-
     const [menuData, roleMenuData] = await Promise.all([
-        findMenuList({}),
-        findRoleMenuList({ role_id: record.id }),
-      ]);
-    const menuTree = formatMenu2Tree(menuData.data,'1');
+      findMenuList({}),
+      findRoleMenuList({ role_id: record.id }),
+    ]);
+    const menuTree = formatMenu2Tree(menuData.data, '1');
 
     formRef?.updateSchema([
       {
@@ -118,10 +117,20 @@
     ]);
 
     if (record.id) {
-      const menuIds = roleMenuData.data.map((n) => n.menu_id);
+      const menuIds = roleMenuData.data.map((n) => {
+        if (n.type == 0) {
+          return n.menu_id;
+        }
+      });
+      const halfMenuIds = roleMenuData.data.map((n) => {
+        if (n.type == 1) {
+          return n.menu_id;
+        }
+      });
       formRef?.setFieldsValue({
         ...record,
         menus: getCheckedKeys(menuIds, menuTree),
+        half_menus: halfMenuIds,
       });
     }
   };
@@ -176,7 +185,10 @@
         },
         {
           label: '删除',
-          auth: 'role.del',
+          auth: {
+            perm: 'role.del',
+            effect: 'disable',
+          },
           style: {
             color: 'red',
           },
@@ -189,7 +201,7 @@
           label: '禁用',
           ifShow: record.status == 0,
           auth: {
-            perm: 'role.edit',
+            perm: 'role.status',
             effect: 'disable',
           },
           popConfirm: {
@@ -201,7 +213,7 @@
           label: '启用',
           ifShow: record.status == 1,
           auth: {
-            perm: 'role.edit',
+            perm: 'role.status',
             effect: 'disable',
           },
           popConfirm: {

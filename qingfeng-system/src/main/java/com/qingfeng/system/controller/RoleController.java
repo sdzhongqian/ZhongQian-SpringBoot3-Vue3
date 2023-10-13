@@ -224,7 +224,7 @@ public class RoleController extends BaseController {
             for (int i = 0; i < ids.length; i++) {
                 RoleMenu roleMenu = new RoleMenu();
                 //主键id
-                roleMenu.setType("0");
+                roleMenu.setType(0);
                 roleMenu.setId(GuidUtil.getUuid());
                 roleMenu.setMenu_id(ids[i]);
                 roleMenu.setRole_id(role_id);
@@ -236,7 +236,7 @@ public class RoleController extends BaseController {
             for (int i = 0; i < halfIds.length; i++) {
                 RoleMenu roleMenu = new RoleMenu();
                 //主键id
-                roleMenu.setType("1");
+                roleMenu.setType(1);
                 roleMenu.setId(GuidUtil.getUuid());
                 roleMenu.setMenu_id(halfIds[i]);
                 roleMenu.setRole_id(role_id);

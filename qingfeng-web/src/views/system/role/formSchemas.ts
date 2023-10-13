@@ -11,7 +11,9 @@ export const roleSchemas: FormSchema<API.RoleEditParams>[] = [
     field: 'short_name',
     component: 'Input',
     label: '角色简称',
-    rules: [{ required: false, type: 'string', max: 50, message: '请输入角色简称且不多于50个字符' }],
+    rules: [
+      { required: false, type: 'string', max: 50, message: '请输入角色简称且不多于50个字符' },
+    ],
   },
   {
     field: 'menus',
@@ -20,16 +22,25 @@ export const roleSchemas: FormSchema<API.RoleEditParams>[] = [
     colProps: {
       span: 24,
     },
-    componentProps: {
-      checkable: true,
-      vModelKey: 'checkedKeys',
-      style: {
-        height: '350px',
-        paddingTop: '5px',
-        overflow: 'auto',
-        borderRadius: '6px',
-        border: '1px solid #dcdfe6',
-      },
+    componentProps: ({ formModel }) => {
+      return {
+        checkedKeys:formModel['menus'],
+        checkable: true,
+        vModelKey: 'checkedKeys',
+        style: {
+          height: '350px',
+          paddingTop: '5px',
+          overflow: 'auto',
+          borderRadius: '6px',
+          border: '1px solid #dcdfe6',
+        },
+        onCheck: (e: any, info: any) => {
+          formModel['half_menus']=info.halfCheckedKeys
+          formModel['menus'] = info.checkedNodes.map((n) => n.id);
+          console.log(formModel)
+          console.log(info)
+        },
+      };
     },
   },
   {
@@ -41,7 +52,8 @@ export const roleSchemas: FormSchema<API.RoleEditParams>[] = [
       style: {
         width: '100%',
       },
-      max: 9999
+      max: 9999,
+      onChange: (e: any) => {},
     },
     rules: [{ required: false, type: 'number', max: 9999, message: '请输入正确的排序号' }],
   },
@@ -56,6 +68,12 @@ export const roleSchemas: FormSchema<API.RoleEditParams>[] = [
   },
   {
     field: 'status',
+    component: 'Input',
+    label: '隐藏字段',
+    vShow: false,
+  },
+  {
+    field: 'half_menus',
     component: 'Input',
     label: '隐藏字段',
     vShow: false,

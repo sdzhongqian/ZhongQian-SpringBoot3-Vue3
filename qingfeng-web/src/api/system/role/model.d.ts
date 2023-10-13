@@ -34,6 +34,7 @@ declare namespace API {
     order_by: number;
     remark: string;
     status: number;
+    half_menus:Array;
   };
 
   /** 更新状态参数 */

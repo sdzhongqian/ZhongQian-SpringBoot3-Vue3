@@ -69,24 +69,25 @@
   };
 
   const handleSwitchOrganizeOk = async () => {
-    const res = await updateSwitchOrganize({ organize_id: organize_id.value });
-    if (res.data.success) {
-      message.success('组织切换成功，请重新登录');
-      await userStore.logout();
-      keepAliveStore.clear();
-      // 移除标签页
-      localStorage.clear();
-      message.success('成功退出登录');
-      await nextTick();
-      router.replace({
-        name: LOGIN_NAME,
-        query: {
-          redirect: route.fullPath,
-        },
-      });
-    } else {
-      message.error(res.data.msg);
-    }
+    message.error("体验平台不可操作");
+    // const res = await updateSwitchOrganize({ organize_id: organize_id.value });
+    // if (res.data.success) {
+    //   message.success('组织切换成功，请重新登录');
+    //   await userStore.logout();
+    //   keepAliveStore.clear();
+    //   // 移除标签页
+    //   localStorage.clear();
+    //   message.success('成功退出登录');
+    //   await nextTick();
+    //   router.replace({
+    //     name: LOGIN_NAME,
+    //     query: {
+    //       redirect: route.fullPath,
+    //     },
+    //   });
+    // } else {
+    //   message.error(res.data.msg);
+    // }
   };
 </script>
 <style scoped>

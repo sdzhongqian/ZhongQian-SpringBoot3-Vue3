@@ -102,8 +102,11 @@ public class Role implements Serializable {
      */
     @TableField(exist = false)
     private List<String> menus;
-
-
+    /**
+     * 半选中状态
+     */
+    @TableField(exist = false)
+    private List<String> half_menus;
 
     @TableField(exist = false)
     private List<String> auth_organize_ids;

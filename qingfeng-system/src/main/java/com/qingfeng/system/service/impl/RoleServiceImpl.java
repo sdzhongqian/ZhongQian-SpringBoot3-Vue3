@@ -92,7 +92,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         for (String id:menus) {
             RoleMenu roleMenu = new RoleMenu();
             //主键id
-            roleMenu.setType("0");
+            roleMenu.setType(0);
+            roleMenu.setId(GuidUtil.getUuid());
+            roleMenu.setMenu_id(id);
+            roleMenu.setRole_id(role_id);
+            roleMenu.setCreate_user(create_user);
+            roleMenu.setCreate_time(time);
+            list.add(roleMenu);
+        }
+        List<String> half_menus = role.getHalf_menus();
+        for (String id:half_menus) {
+            RoleMenu roleMenu = new RoleMenu();
+            //主键id
+            roleMenu.setType(1);
             roleMenu.setId(GuidUtil.getUuid());
             roleMenu.setMenu_id(id);
             roleMenu.setRole_id(role_id);
@@ -118,7 +130,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         for (String id:menus) {
             RoleMenu roleMenu = new RoleMenu();
             //主键id
-            roleMenu.setType("0");
+            roleMenu.setType(0);
+            roleMenu.setId(GuidUtil.getUuid());
+            roleMenu.setMenu_id(id);
+            roleMenu.setRole_id(role_id);
+            roleMenu.setCreate_user(create_user);
+            roleMenu.setCreate_time(time);
+            list.add(roleMenu);
+        }
+        List<String> half_menus = role.getHalf_menus();
+        for (String id:half_menus) {
+            RoleMenu roleMenu = new RoleMenu();
+            //主键id
+            roleMenu.setType(1);
             roleMenu.setId(GuidUtil.getUuid());
             roleMenu.setMenu_id(id);
             roleMenu.setRole_id(role_id);

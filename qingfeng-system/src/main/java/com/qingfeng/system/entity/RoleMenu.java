@@ -30,7 +30,7 @@ public class RoleMenu implements Serializable {
      * 类型
      */
     @TableField(value = "type")
-    private String type;
+    private int type;
     /**
      * 菜单id
      */

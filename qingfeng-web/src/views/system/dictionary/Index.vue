@@ -108,7 +108,7 @@
           label: '禁用',
           ifShow: record.status == 0,
           auth: {
-            perm: 'dictionary.edit',
+            perm: 'dictionary.status',
             effect: 'disable',
           },
           popConfirm: {
@@ -120,7 +120,7 @@
           label: '启用',
           ifShow: record.status == 1,
           auth: {
-            perm: 'dictionary.edit',
+            perm: 'dictionary.status',
             effect: 'disable',
           },
           popConfirm: {

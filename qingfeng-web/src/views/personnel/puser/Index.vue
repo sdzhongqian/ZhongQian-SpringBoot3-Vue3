@@ -122,30 +122,40 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item v-if="$auth('puser.resetPwd')">
-                      <a @click="() => resetPwd(record.id)">密码重置</a>
+                    <a-menu-item>
+                      <a-button
+                        type="link"
+                        :disabled="!$auth('puser.resetPwd')"
+                        @click="() => resetPwd(record.id)"
+                        >密码重置</a-button
+                      >
                     </a-menu-item>
                     <a-menu-item v-if="$auth('puser.assignAuth')">
-                      <a @click="() => openAuthModal(record)">权限分配</a>
+                      <a-button
+                        type="link"
+                        :disabled="!$auth('puser.assignAuth')"
+                        @click="() => openAuthModal(record)"
+                        >权限分配</a-button
+                      >
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('puser.status') && record.status == 0">
+                    <a-menu-item v-if="record.status == 0">
                       <a-popconfirm
                         title="你确定要禁用用户吗？"
                         ok-text="确认"
                         cancel-text="取消"
                         @confirm="editStatus(record, 1)"
                       >
-                        <a>禁用用户</a>
+                        <a-button type="link" :disabled="!$auth('user.status')">禁用用户</a-button>
                       </a-popconfirm>
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('puser.status') && record.status != 0">
+                    <a-menu-item v-if="record.status != 0">
                       <a-popconfirm
                         title="你确定要启用用户吗？"
                         ok-text="确认"
                         cancel-text="取消"
                         @confirm="editStatus(record, 0)"
                       >
-                        <a>启用用户</a>
+                        <a-button type="link" :disabled="!$auth('user.status')">启用用户</a-button>
                       </a-popconfirm>
                     </a-menu-item>
                   </a-menu>
@@ -165,7 +175,12 @@
       @ok="saveEdit"
       @cancel="visibleEdit = false"
     ></edit>
-    <import :data="record" :visible="visibleImport" @ok="dynamicTableInstance?.reload()" @cancel="visibleImport = false"></import>
+    <import
+      :data="record"
+      :visible="visibleImport"
+      @ok="dynamicTableInstance?.reload()"
+      @cancel="visibleImport = false"
+    ></import>
   </div>
 </template>
 
@@ -579,7 +594,7 @@
         let url = window.URL.createObjectURL(blob); // 创建一个临时的url指向blob对象
         let a = document.createElement('a');
         a.href = url;
-        a.download = '用户数据_'+getGuid()+'.xlsx';
+        a.download = '用户数据_' + getGuid() + '.xlsx';
         a.click();
         // 释放这个临时的对象url
         window.URL.revokeObjectURL(url);

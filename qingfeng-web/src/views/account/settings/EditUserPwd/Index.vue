@@ -38,12 +38,13 @@
 
   // 点击提交
   const handleSubmit = async (values) => {
-    const res = await updateMyPwd(values);
-    if (res.data.success) {
-      message.success(res.data.msg);
-    } else {
-      message.error(res.data.msg);
-    }
+    message.error("体验平台不可操作");
+    // const res = await updateMyPwd(values);
+    // if (res.data.success) {
+    //   message.success(res.data.msg);
+    // } else {
+    //   message.error(res.data.msg);
+    // }
   }
 </script>
 

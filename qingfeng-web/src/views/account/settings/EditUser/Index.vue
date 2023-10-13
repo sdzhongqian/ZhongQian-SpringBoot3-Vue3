@@ -47,14 +47,14 @@
 
   // 点击提交
   function confirm() {
-    console.log('dynamicForm.value', dynamicForm.value?.formModel);
     dynamicForm.value?.validate().then(async() => {
-      const res = await updateMyUser(dynamicForm.value?.formModel);
-      if (res.data.success) {
-        message.success(res.data.msg);
-      } else {
-        message.error(res.data.msg);
-      }
+      message.error("体验平台不可操作");
+      // const res = await updateMyUser(dynamicForm.value?.formModel);
+      // if (res.data.success) {
+      //   message.success(res.data.msg);
+      // } else {
+      //   message.error(res.data.msg);
+      // }
     });
   }
 </script>

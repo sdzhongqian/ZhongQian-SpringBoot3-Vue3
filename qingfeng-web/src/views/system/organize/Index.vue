@@ -107,7 +107,10 @@
         },
         {
           label: '删除',
-          auth: 'organize.del',
+          auth: {
+            perm: 'organize.del',
+            effect: 'disable',
+          },
           popConfirm: {
             title: '你确定要删除吗？',
             onConfirm: () => delRowConfirm(record.id),

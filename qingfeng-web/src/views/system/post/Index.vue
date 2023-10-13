@@ -96,7 +96,10 @@
         },
         {
           label: '删除',
-          auth: 'post.del',
+          auth: {
+            perm: 'post.del',
+            effect: 'disable',
+          },
           popConfirm: {
             title: '你确定要删除吗？',
             onConfirm: () => delRowConfirm(record.id),
@@ -105,7 +108,7 @@
         {
           label: '权限',
           auth: {
-            perm: 'organize.auth',
+            perm: 'post.auth',
             effect: 'disable',
           },
           onClick: () => openAuthModal(record),
@@ -114,7 +117,7 @@
           label: '禁用',
           ifShow: record.status == 0,
           auth: {
-            perm: 'post.edit',
+            perm: 'post.status',
             effect: 'disable',
           },
           popConfirm: {

@@ -73,6 +73,7 @@
                 ghost
                 size="small"
                 color="rgb(19, 194, 194)"
+                :disabled="!$auth('user.edit')"
                 >编辑</AButton
               >
               <a-popconfirm
@@ -81,7 +82,14 @@
                 ok-text="确定"
                 cancel-text="取消"
               >
-                <AButton class="ant-btn" ghost size="small" color="rgb(245, 34, 45)">删除</AButton>
+                <AButton
+                  :disabled="!$auth('user.del')"
+                  class="ant-btn"
+                  ghost
+                  size="small"
+                  color="rgb(245, 34, 45)"
+                  >删除</AButton
+                >
               </a-popconfirm>
               <a-dropdown :style="{ marginLeft: '10px' }">
                 <a class="ant-dropdown-link" @click.prevent>
@@ -90,33 +98,48 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item v-if="$auth('user.resetPwd')">
-                      <a @click="() => resetPwd(record.id)">密码重置</a>
+                    <a-menu-item>
+                      <a-button
+                        type="link"
+                        :disabled="!$auth('user.resetPwd')"
+                        @click="() => resetPwd(record.id)"
+                        >密码重置</a-button
+                      >
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('user.resetOrganize')">
-                      <a @click="() => mangeOrganize(record)">设置组织</a>
+                    <a-menu-item>
+                      <a-button
+                        type="link"
+                        :disabled="!$auth('user.resetOrganize')"
+                        @click="() => mangeOrganize(record)"
+                        >设置组织</a-button
+                      >
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('user.assignAuth')">
-                      <a @click="() => openAuthModal(record)">权限分配</a>
+                    <a-menu-item>
+                      <a-button
+                        type="link"
+                        :disabled="!$auth('user.assignAuth')"
+                        @click="() => openAuthModal(record)"
+                        >权限分配</a-button
+                      >
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('user.status') && record.status == 0">
+                    <a-menu-item v-if="record.status == 0">
                       <a-popconfirm
                         title="你确定要禁用用户吗？"
                         ok-text="确认"
                         cancel-text="取消"
                         @confirm="editStatus(record, 1)"
                       >
-                        <a>禁用用户</a>
+                        <a-button type="link" :disabled="!$auth('user.status')">禁用用户</a-button>
                       </a-popconfirm>
                     </a-menu-item>
-                    <a-menu-item v-if="$auth('user.status') && record.status != 0">
+                    <a-menu-item v-if="record.status != 0">
                       <a-popconfirm
                         title="你确定要启用用户吗？"
                         ok-text="确认"
                         cancel-text="取消"
                         @confirm="editStatus(record, 0)"
                       >
-                        <a>启用用户</a>
+                        <a-button type="link" :disabled="!$auth('user.status')">启用用户</a-button>
                       </a-popconfirm>
                     </a-menu-item>
                   </a-menu>
@@ -134,7 +157,12 @@
       <mgorganize :data="userData"></mgorganize>
     </DraggableModal>
     <auth :data="record" :visible="visible" @ok="saveAuth" @cancel="visible = false"></auth>
-    <import :data="record" :visible="visibleImport" @ok="dynamicTableInstance?.reload()" @cancel="visibleImport = false"></import>
+    <import
+      :data="record"
+      :visible="visibleImport"
+      @ok="dynamicTableInstance?.reload()"
+      @cancel="visibleImport = false"
+    ></import>
   </div>
 </template>
 
@@ -309,13 +337,20 @@
         },
       },
     ]);
+    console.log(record);
     if (!record.id) {
       record.organize_id = organize_id.value;
       record.order_by = data_count.value + 1;
     } else {
-      record.post_ids = record.post_ids?.split(',');
+      if (!isArray(record.post_ids)) {
+        record.post_ids = record.post_ids?.split(',');
+      }
     }
     formRef?.setFieldsValue(record);
+  };
+
+  const isArray = (obj) => {
+    return typeof obj == 'object' && obj.constructor == Array;
   };
 
   const resetPwd = async (ids) => {
@@ -397,7 +432,6 @@
     });
   };
 
-
   const baseUrl = import.meta.env.VITE_BASE_API;
   //下载导出模板
   const downImportTemp = () => {
@@ -441,7 +475,7 @@
         let url = window.URL.createObjectURL(blob); // 创建一个临时的url指向blob对象
         let a = document.createElement('a');
         a.href = url;
-        a.download = '用户数据_'+getGuid()+'.xlsx';
+        a.download = '用户数据_' + getGuid() + '.xlsx';
         a.click();
         // 释放这个临时的对象url
         window.URL.revokeObjectURL(url);
@@ -453,8 +487,6 @@
     record.value = item;
     visibleEdit.value = true;
   };
-
-
 </script>
 
 <style scoped>

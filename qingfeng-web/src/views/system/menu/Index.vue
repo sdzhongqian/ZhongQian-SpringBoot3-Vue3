@@ -122,7 +122,10 @@
         },
         {
           label: '删除',
-          auth: 'menu.del',
+          auth: {
+            perm: 'menu.del',
+            effect: 'disable',
+          },
           popConfirm: {
             title: '你确定要删除吗？',
             onConfirm: () => delRowConfirm(record),
@@ -132,7 +135,7 @@
           label: '禁用',
           ifShow: record.status == 0,
           auth: {
-            perm: 'role.edit',
+            perm: 'menu.status',
             effect: 'disable',
           },
           popConfirm: {
@@ -144,7 +147,7 @@
           label: '启用',
           ifShow: record.status == 1,
           auth: {
-            perm: 'role.edit',
+            perm: 'menu.status',
             effect: 'disable',
           },
           popConfirm: {

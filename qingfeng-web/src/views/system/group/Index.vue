@@ -153,7 +153,7 @@ const columns: TableColumnItem[] = [
         label: '禁用',
         ifShow:record.status==0,
         auth: {
-          perm: 'role.edit',
+          perm: 'group.status',
           effect: 'disable',
         },
         popConfirm: {
@@ -165,7 +165,7 @@ const columns: TableColumnItem[] = [
         label: '启用',
         ifShow:record.status==1,
         auth: {
-          perm: 'role.edit',
+          perm: 'group.status',
           effect: 'disable',
         },
         popConfirm: {
