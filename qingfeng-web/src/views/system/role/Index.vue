@@ -117,16 +117,15 @@
     ]);
 
     if (record.id) {
-      const menuIds = roleMenuData.data.map((n) => {
-        if (n.type == 0) {
-          return n.menu_id;
-        }
+      let menuIds = roleMenuData.data.filter((n) => {
+        return n.type == 0;
       });
-      const halfMenuIds = roleMenuData.data.map((n) => {
-        if (n.type == 1) {
-          return n.menu_id;
-        }
+      menuIds = Array.from(menuIds, ({ menu_id }) => menu_id);
+
+      let halfMenuIds = roleMenuData.data.filter((n) => {
+        return n.type == 1;
       });
+      halfMenuIds = Array.from(halfMenuIds, ({ menu_id }) => menu_id);
       formRef?.setFieldsValue({
         ...record,
         menus: getCheckedKeys(menuIds, menuTree),
